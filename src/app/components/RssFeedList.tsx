@@ -5,6 +5,7 @@ type FeedItem = {
   link: string;
   pubDate: string;
   content?: string;
+  source: string;
   enclosure?: {
     url: string;
     type?: string;
@@ -56,9 +57,11 @@ export default function RssFeedList() {
                 {item.title}
               </a>
             </h2>
-          <time className="text-sm text-gray-500">
-            {new Date(item.pubDate).toLocaleDateString()}
-          </time>
+          <div className="text-sm text-gray-500">
+            <time>{new Date(item.pubDate).toLocaleDateString()}</time>
+            <span className="mx-2">•</span>
+            <span>{item.source}</span>
+          </div>
           {(item.enclosure?.url || item['media:content']?.$?.url) && (
             <div className="mt-4 mb-4">
               <img 

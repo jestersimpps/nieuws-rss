@@ -13,7 +13,12 @@ export async function GET() {
   try {
     for (const feedUrl of RSS_FEEDS) {
       const feed = await parser.parseURL(feedUrl);
-      allItems.push(...feed.items);
+      const source = feedUrl.includes('hln.be') ? 'HLN' : 'De Morgen';
+      const itemsWithSource = feed.items.map(item => ({
+        ...item,
+        source
+      }));
+      allItems.push(...itemsWithSource);
     }
 
     // Sort by date
