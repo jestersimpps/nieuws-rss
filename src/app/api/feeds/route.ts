@@ -2,8 +2,8 @@ import Parser from 'rss-parser';
 import { NextResponse } from 'next/server';
 
 const RSS_FEEDS = [
-  'https://news.ycombinator.com/rss',
-  'https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml',
+  'https://www.hln.be/home/rss.xml',
+  'https://www.demorgen.be/in-het-nieuws/rss.xml',
 ];
 
 export async function GET() {
