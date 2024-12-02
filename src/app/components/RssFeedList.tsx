@@ -49,9 +49,10 @@ export default function RssFeedList() {
             {new Date(item.pubDate).toLocaleDateString()}
           </time>
           {item.content && (
-            <p className="mt-2 text-gray-600 dark:text-gray-300">
-              {item.content.slice(0, 200)}...
-            </p>
+            <div 
+              className="mt-4 text-gray-600 dark:text-gray-300 prose dark:prose-invert max-w-none"
+              dangerouslySetInnerHTML={{ __html: item.content }}
+            />
           )}
         </article>
       ))}
