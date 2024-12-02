@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 type FeedItem = {
   title: string;
@@ -46,6 +47,10 @@ export default function RssFeedList() {
     return <div>Loading feeds...</div>;
   }
 
+  if (error) {
+    return <div className="text-red-500">Error: {error}</div>;
+  }
+
   return (
     <div className="grid gap-6">
       {feedItems.map((item, index) => (
@@ -64,11 +69,13 @@ export default function RssFeedList() {
           </div>
           {(item.enclosure?.url || item['media:content']?.$?.url) && (
             <div className="mt-4 mb-4">
-              <img 
+              <Image 
                 src={item.enclosure?.url || item['media:content']?.$?.url}
                 alt={item.title}
+                width={800}
+                height={450}
                 className="w-full h-auto rounded-lg"
-                loading="lazy"
+                priority={index < 2}
               />
             </div>
           )}
