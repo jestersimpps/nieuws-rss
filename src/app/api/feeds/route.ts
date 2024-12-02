@@ -23,12 +23,14 @@ export async function GET() {
       const source = feedUrl.includes('hln.be') ? 'HLN' : 'De Morgen';
       
       feed.items.forEach(item => {
-        const normalizedTitle = item.title.toLowerCase().trim();
-        if (!uniqueItems.has(normalizedTitle)) {
-          uniqueItems.set(normalizedTitle, {
-            ...item,
-            source
-          });
+        if (item.title) {
+          const normalizedTitle = item.title.toLowerCase().trim();
+          if (!uniqueItems.has(normalizedTitle)) {
+            uniqueItems.set(normalizedTitle, {
+              ...item,
+              source
+            });
+          }
         }
       });
     }
