@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Parser from 'rss-parser';
 
 type FeedItem = {
   title: string;
@@ -8,41 +7,28 @@ type FeedItem = {
   content?: string;
 };
 
-const RSS_FEEDS = [
-  'https://news.ycombinator.com/rss',
-  'https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml',
-  // Add more RSS feeds as needed
-];
-
 export default function RssFeedList() {
   const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchFeeds = async () => {
-      const parser = new Parser();
-      const allItems: FeedItem[] = [];
-
-      try {
-        for (const feedUrl of RSS_FEEDS) {
-          const feed = await parser.parseURL(feedUrl);
-          allItems.push(...(feed.items as FeedItem[]));
+    fetch('/api/feeds')
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setFeedItems(data.items);
         }
-
-        // Sort by date
-        allItems.sort((a, b) => 
-          new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
-        );
-        
-        setFeedItems(allItems);
-      } catch (error) {
-        console.error('Error fetching RSS feeds:', error);
-      } finally {
+      })
+      .catch(err => {
+        console.error('Error fetching feeds:', err);
+        setError('Failed to load feeds');
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    };
-
-    fetchFeeds();
+      });
   }, []);
 
   if (loading) {
