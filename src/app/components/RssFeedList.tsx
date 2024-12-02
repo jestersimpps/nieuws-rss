@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
+const DEFAULT_IMAGE = '/vercel.svg'; // Using an existing image from public directory
+
 type FeedItem = {
   title: string;
   link: string;
@@ -70,8 +72,8 @@ export default function RssFeedList() {
           {(item.enclosure?.url || item['media:content']?.$?.url) && (
             <div className="mt-4 mb-4">
               <Image 
-                src={item.enclosure?.url || item['media:content']?.$?.url}
-                alt={item.title}
+                src={item.enclosure?.url || item['media:content']?.$?.url || DEFAULT_IMAGE}
+                alt={item.title || 'Article image'}
                 width={800}
                 height={450}
                 className="w-full h-auto rounded-lg"
