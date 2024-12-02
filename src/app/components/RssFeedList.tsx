@@ -48,13 +48,14 @@ export default function RssFeedList() {
   return (
     <div className="grid gap-6">
       {feedItems.map((item, index) => (
-        <article key={index} className="p-6 rounded-lg border border-black/[.08] dark:border-white/[.145]">
-          <h2 className="text-xl font-semibold mb-2">
-            <a href={item.link} target="_blank" rel="noopener noreferrer" 
-               className="hover:underline">
-              {item.title}
-            </a>
-          </h2>
+        <article key={index} className="p-6 rounded-lg border border-black/[.08] dark:border-white/[.145] flex gap-6">
+          <div className="flex-grow">
+            <h2 className="text-xl font-semibold mb-2">
+              <a href={item.link} target="_blank" rel="noopener noreferrer" 
+                 className="hover:underline">
+                {item.title}
+              </a>
+            </h2>
           <time className="text-sm text-gray-500">
             {new Date(item.pubDate).toLocaleDateString()}
           </time>
@@ -74,6 +75,20 @@ export default function RssFeedList() {
               dangerouslySetInnerHTML={{ __html: item.content }}
             />
           )}
+          </div>
+          <div className="flex-none self-center">
+            <a 
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
+              Read Article
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
         </article>
       ))}
     </div>
