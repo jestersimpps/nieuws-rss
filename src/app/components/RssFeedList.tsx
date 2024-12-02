@@ -5,6 +5,16 @@ type FeedItem = {
   link: string;
   pubDate: string;
   content?: string;
+  enclosure?: {
+    url: string;
+    type?: string;
+  };
+  'media:content'?: {
+    $: {
+      url: string;
+      type?: string;
+    };
+  };
 };
 
 export default function RssFeedList() {
@@ -48,6 +58,16 @@ export default function RssFeedList() {
           <time className="text-sm text-gray-500">
             {new Date(item.pubDate).toLocaleDateString()}
           </time>
+          {(item.enclosure?.url || item['media:content']?.$?.url) && (
+            <div className="mt-4 mb-4">
+              <img 
+                src={item.enclosure?.url || item['media:content']?.$?.url}
+                alt={item.title}
+                className="w-full h-auto rounded-lg"
+                loading="lazy"
+              />
+            </div>
+          )}
           {item.content && (
             <div 
               className="mt-4 text-gray-600 dark:text-gray-300 prose dark:prose-invert max-w-none"
