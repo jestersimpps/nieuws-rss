@@ -16,17 +16,25 @@ export async function GET() {
   const allItems = [];
 
   try {
+    const uniqueItems = new Map();
+
     for (const feedUrl of RSS_FEEDS) {
       const feed = await parser.parseURL(feedUrl);
       const source = feedUrl.includes('hln.be') ? 'HLN' : 'De Morgen';
-      const itemsWithSource = feed.items.map(item => ({
-        ...item,
-        source
-      }));
-      allItems.push(...itemsWithSource);
+      
+      feed.items.forEach(item => {
+        const normalizedTitle = item.title.toLowerCase().trim();
+        if (!uniqueItems.has(normalizedTitle)) {
+          uniqueItems.set(normalizedTitle, {
+            ...item,
+            source
+          });
+        }
+      });
     }
 
-    // Sort by date
+    // Convert Map values to array and sort by date
+    allItems.push(...Array.from(uniqueItems.values()));
     allItems.sort((a, b) => 
       new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
     );
