@@ -7,7 +7,8 @@ const nextConfig: NextConfig = {
       'images.vrt.be',
       'www.demorgen.be',
       'www.hln.be',
-      'www.standaard.be'
+      'www.standaard.be',
+      'static.standaard.be'
     ],
   },
 };
